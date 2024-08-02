@@ -18,6 +18,7 @@ TagManager:
   - Push - Huo
   - Push - Di
   - SlideCol
+  - ScoreHud
   layers:
   - Default
   - TransparentFX

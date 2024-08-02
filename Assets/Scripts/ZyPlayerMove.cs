@@ -23,6 +23,7 @@ public class ZyPlayerMove : MonoBehaviour
     private GameObject O2PU;
     public Joystick joystick; //Joystick
     AudioManager audioManager;
+    public ScoreHud scoreScript;
 
     [Header("Horizontal movement")]
     public float speed;
@@ -73,6 +74,7 @@ public class ZyPlayerMove : MonoBehaviour
         anim = GetComponent<Animator>();
         coll = GetComponent<Collision>();
         slideScript = GetComponent<AdvancedSliding>();
+        scoreScript = FindObjectOfType<ScoreHud>();
         coll.Grounded = true;
         canTP = true;
     }

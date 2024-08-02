@@ -18,6 +18,7 @@ public class AdvancedSliding : MonoBehaviour
     public SpriteRenderer sprite;
     public ParticleController particleScript;
     AudioManager audioManager;
+    public ScoreHud scoreScript;
 
     [Header("Slide settings")]
     public bool canSlide;
@@ -52,6 +53,7 @@ public class AdvancedSliding : MonoBehaviour
         //PJumpReady = true;
         slidecdOver = true;
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+        scoreScript = FindObjectOfType<ScoreHud>();
     }
 
     private void Update()
@@ -121,7 +123,6 @@ public class AdvancedSliding : MonoBehaviour
             sprinting = true;
             //playerMove.speed = newSpeed;
             SprintLeft -= Time.deltaTime;
-            Debug.Log("SpeedIncreased");
         }
         else if (SprintLeft <= 0)
         {
@@ -230,8 +231,9 @@ public class AdvancedSliding : MonoBehaviour
         PJumpActivated = true;
         Debug.Log("PJumpActivated");
         sprite.color = Color.yellow; //Change eye to show activation
-        audioManager.PlayPJumpSfx();
-        particleScript.PJumpBang.Play();
+        audioManager.PlayPJumpSfx(); //SOUND
+        particleScript.PJumpBang.Play(); //PARTICLES    
+        scoreScript.PJumpPoints();
         //SLOW TIME
         Time.timeScale = 0.2f;
         yield return new WaitForSeconds(.2f);
@@ -244,10 +246,11 @@ public class AdvancedSliding : MonoBehaviour
         {
             playerMove.speed += speedBuff;
         }
-        else if (playerMove.speed >25f)
+        else if (playerMove.speed >25f) // if speed too high nah
         {
             playerMove.speed = 25f;
         }
+        Debug.Log("SpeedIncreased");
         canSlide = true;
         PJumpActivated = false;
         PJumpCD = 4f;

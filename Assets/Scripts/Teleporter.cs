@@ -20,7 +20,7 @@ public class Teleporter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("SlideCol"))
         {
             if (Vector2.Distance(player.transform.position, transform.position) > tpDistLimit)
             {

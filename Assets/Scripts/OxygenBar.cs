@@ -9,7 +9,6 @@ public class OxygenBar : MonoBehaviour
     public float maxOxygen;
     public float oxygenLeft;
 
-    public Animator anim;
     public ZyPlayerMove PlayerMove;
     public AdvancedSliding PlayerSlide;
     public GameObject gameOverScreen;
