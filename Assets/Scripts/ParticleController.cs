@@ -9,6 +9,7 @@ public class ParticleController : MonoBehaviour
     public ParticleSystem slideLines;
     public ParticleSystem sprintLines;
     public ParticleSystem PJumpBang;
+    public ParticleSystem PJumpReady;
     [Range(0, 30)]
     [SerializeField] int occurAfterVelocity;
 
@@ -44,7 +45,8 @@ public class ParticleController : MonoBehaviour
                 counter = 0;
             }
         }
-        if (slideScript.sliding && slideScript.sprinting == false) //Slide Lines
+        //Slide Lines
+        if (slideScript.sliding && slideScript.sprinting == false) 
         {
             slideLines.Play();  
         }
@@ -52,8 +54,8 @@ public class ParticleController : MonoBehaviour
         {
             slideLines.Stop();
         }
-
-        if (slideScript.sprinting) //Sprint Lines
+        //Sprint Lines
+        if (slideScript.sprinting) 
         {
             sprintLines.Play();
         }
@@ -62,14 +64,7 @@ public class ParticleController : MonoBehaviour
             sprintLines.Stop();
         }
         
-        /*if (slideScript.PJumpActivated) //PJump effects
-        {
-            PJumpBang.Play();
-        }
-        else if (slideScript.PJumpActivated == false)
-        { 
-            PJumpBang.Stop(); 
-        }*/
+      
     }
 
 
