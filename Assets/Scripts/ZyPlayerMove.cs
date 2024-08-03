@@ -37,12 +37,9 @@ public class ZyPlayerMove : MonoBehaviour
     public float fallMultiplier = 2.5f;
     public float lowJumpMultiplier = 2f;
     public bool isJumping;  //Old is canJump;
-
     //double jumps
     private float currentJumpCounter;
     public float additionalJumps;
-
-    //New Addition
     //Coyote time and jump buffering
     public float coyoteTime;
     public float coyoteTimeCounter;
@@ -209,6 +206,7 @@ public class ZyPlayerMove : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("End"))
         {
+            //Add function for win screen here
             victoryScreen.SetActive(true);
             nextLevelButton.SetActive(true);
             GetComponent<Rigidbody2D>().simulated = false;

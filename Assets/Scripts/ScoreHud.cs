@@ -6,22 +6,24 @@ using UnityEngine.UI;
 
 public class ScoreHud : MonoBehaviour
 {
+    [Header("References")]
     public GameObject SHud;
     public ZyPlayerMove moveScript;
     public AdvancedSliding slideScript;
     public SuppliesManager supplyScript;
-    public TMP_Text currentScoreShown;
+    private Shake shakeScript;
     public TMP_Text actionsText;
     public GameObject C;
     public GameObject B;
     public GameObject A;
     public GameObject S;
-
-
     public Image scoreBar;
+
+    [Header("ScoreSettings")]
     public float maxScore; //DEFAULT IS 300
-    public float currentScore;
     public float actualScore;
+
+    [Header("GraceSettings")]
     public float decreaseX; //DEFAULT IS 1
     public float graceTime; //DEFAULT IS 3
 
@@ -38,6 +40,7 @@ public class ScoreHud : MonoBehaviour
         if (graceTime > 0) //Start countdown before decreasing score
         {
             graceTime -= Time.deltaTime;
+            scoreBar.color = new Color(236/255f, 227/255f, 99/255f, 1);
         }
 
         if (actualScore > 0)
@@ -46,8 +49,8 @@ public class ScoreHud : MonoBehaviour
 
             if (graceTime <= 0)
             {
+                scoreBar.color = Color.white;
                 actualScore -= decreaseX * Time.deltaTime;
-                //scoreBar.fillAmount = actualScore / maxScore;
             }
 
             //IF SCORE GOES OVER RANGE CHANGE TEXT TO NEXT GRADE
@@ -62,7 +65,7 @@ public class ScoreHud : MonoBehaviour
             }
             if (actualScore > 50 && actualScore <=100)//B
             {
-                scoreBar.fillAmount = (actualScore-50) / (maxScore-200);
+                scoreBar.fillAmount = (actualScore-50) / (maxScore-250);
                 decreaseX = 6f;
                 S.SetActive(false);
                 A.SetActive(false);
@@ -71,16 +74,16 @@ public class ScoreHud : MonoBehaviour
             } 
             if (actualScore > 100 && actualScore <=150)//A
             {
-                scoreBar.fillAmount = (actualScore-100) /(maxScore-150);
+                scoreBar.fillAmount = (actualScore-100) /(maxScore-250);
                 decreaseX = 8f;
                 S.SetActive(false);
                 A.SetActive(true);
                 B.SetActive(false);
                 C.SetActive(false);
             } 
-            if (actualScore > 150)
+            if (actualScore > 150)//S
             {
-                scoreBar.fillAmount = (actualScore-150) / maxScore;//S
+                scoreBar.fillAmount = (actualScore-150) / (maxScore-150);
                 decreaseX = 12f;
                 S.SetActive(true);
                 A.SetActive(false);
@@ -93,11 +96,11 @@ public class ScoreHud : MonoBehaviour
           SHud.SetActive(false);
         }
 
-        currentScore = Mathf.Round(actualScore * 1f) * 1f; //Rounds actual score to current score to show on ui
-        currentScoreShown.text = currentScore.ToString(); //change number for thingy
+        //currentScore = Mathf.Round(actualScore * 1f) * 1f; //Rounds actual score to current score to show on ui
+        //currentScoreShown.text = currentScore.ToString(); //change number for thing
     }
 
-    //POINTS 
+    //POINTS & GRACETIME TO ADD PER ACTION
     public void supplyPoints()
     { 
         actualScore += 5;
@@ -120,6 +123,7 @@ public class ScoreHud : MonoBehaviour
         StartCoroutine(ActionCD());
     }
 
+    //WAIT FOR 1S BEFORE DISAPPEARING
     public IEnumerator ActionCD()
     {
         yield return new WaitForSeconds(1f);
@@ -132,6 +136,7 @@ public class ScoreHud : MonoBehaviour
         actions.Enqueue(action);
         UpdateQueuedActionText();
     }
+    //GO NEXT ACTION
     public void RunNextAction()
     {
         if (actions.Count == 0)
@@ -143,6 +148,7 @@ public class ScoreHud : MonoBehaviour
         Debug.Log("acted");
         UpdateQueuedActionText();
     }
+    //UPDATE ACTION LIST
     void UpdateQueuedActionText()
     {
         actionsText.text = string.Empty;
