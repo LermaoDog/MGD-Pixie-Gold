@@ -22,11 +22,10 @@ public class Teleporter : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("SlideCol"))
         {
-            if (Vector2.Distance(player.transform.position, transform.position) > tpDistLimit)
+            if ((Vector2.Distance(player.transform.position, transform.position) > tpDistLimit) && moveScript.canTP)
             {
-                //moveScript.canTP = false;
                 player.transform.position = new Vector2(reciever.transform.position.x, reciever.transform.position.y);
-                //moveScript.canTP = true;
+                moveScript.canTP = false;
             }
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using TMPro;
+using TMPro;
 using UnityEngine.UI;
 
 public class SuppliesManager : MonoBehaviour
@@ -9,8 +9,8 @@ public class SuppliesManager : MonoBehaviour
     public static SuppliesManager Instance;
     public ScoreHud scoreScript;
 
-    public Text texttemp;
-    int score;
+    public TMP_Text texttemp;
+    public int score;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +27,6 @@ public class SuppliesManager : MonoBehaviour
         scoreScript.supplyPoints();
         score += suppliesValue;
         //text.text = "X" + score.ToString();
-        texttemp.text = "X" + score.ToString();
+        texttemp.text = string.Format("{0}", score);
     }
 }

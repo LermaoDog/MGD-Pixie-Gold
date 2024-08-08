@@ -11,7 +11,6 @@ public class OxygenBar : MonoBehaviour
 
     public ZyPlayerMove PlayerMove;
     public AdvancedSliding PlayerSlide;
-    public GameObject gameOverScreen;
 
     public IEnumerator Die;
 
@@ -55,7 +54,6 @@ public class OxygenBar : MonoBehaviour
             PlayerSlide.enabled = false;
 
             StartCoroutine(PlayerMove.Die());
-            gameOverScreen.SetActive(true);
 
             this.enabled = false;
         }

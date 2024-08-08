@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: 1ae3c4253571bba4ea8f85cae48429d7
   - enabled: 1
+    path: Assets/Scenes/A1S1 Redesign.unity
+    guid: 7c65581d4d572b3488cb40a11666be53
+  - enabled: 1
     path: Assets/Scenes/A1S1.unity
     guid: e092fe05d896b5e458aaf340a8efd3a2
   - enabled: 1

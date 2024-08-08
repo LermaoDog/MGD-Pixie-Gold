@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     { 
-        SceneManager.LoadScene("A1S1");
+        SceneManager.LoadScene("A1S1 Redesign");
     }
 
     public void Controls()

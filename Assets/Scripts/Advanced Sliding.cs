@@ -19,6 +19,7 @@ public class AdvancedSliding : MonoBehaviour
     public ParticleController particleScript;
     AudioManager audioManager;
     public ScoreHud scoreScript;
+    public CameraScript camScript;
 
     [Header("Slide settings")]
     public bool canSlide;
@@ -33,11 +34,11 @@ public class AdvancedSliding : MonoBehaviour
     [Header("PJump settings")]
     public bool PJumpAvailable;
     public float PJumpCD;
+    public bool canPP = true;
     //public bool PJumpReady;
     //public float PJumpReadyCD;
     public bool PJumpActivated;
     public float PJumpThreshold;
-    public float newSpeed;
     public float speedBuff;
     public bool sprinting;
     public float SprintLeft;
@@ -77,7 +78,7 @@ public class AdvancedSliding : MonoBehaviour
         {
             canSlide = true;
         }
-        else
+        else if ((coll.Grounded == false) || (slidecdOver == false))
         {
             canSlide = false;
         }
@@ -86,10 +87,10 @@ public class AdvancedSliding : MonoBehaviour
         if (slideTimer <= PJumpThreshold && slideTimer > 0f) //if slide timer less than threshold and more than 0
         {
 
-            if (playerMove.jumpBufferCounter > -0.1f && PJumpAvailable) //If jumped activate pjump
+            if (playerMove.jumpBufferCounter > -0.2f && PJumpAvailable) //If jumped activate pjump
             {
-                StartCoroutine(PJumpActivate());
                 PJumpAvailable = false;
+                StartCoroutine(PJumpActivate());
             }
             else if (slideTimer <= 0f) // if 0 gg type shit
             {
@@ -107,9 +108,10 @@ public class AdvancedSliding : MonoBehaviour
         {
             sprite.color = Color.white;
         }
-        else if (PJumpAvailable && slideTimer <= PJumpThreshold) //pjump available and ready
+        else if (PJumpAvailable && slideTimer <= PJumpThreshold && coll.Grounded) //pjump available and ready
         {
             sprite.color = Color.red;
+            particleScript.PJumpIndicator();
         }
         else if (PJumpActivated) //pjump type shi u feel?
         {
@@ -120,15 +122,22 @@ public class AdvancedSliding : MonoBehaviour
         //SpeedCountdown
         if (SprintLeft > 0)
         {
-            sprinting = true;
-            //playerMove.speed = newSpeed;
             SprintLeft -= Time.deltaTime;
         }
         else if (SprintLeft <= 0)
         {
-            sprinting = false;
-            playerMove.speed = 15f;
+            playerMove.desiredSpeed = Mathf.Lerp(playerMove.desiredSpeed, 15f, .02f); //Comment this line if playtesting AIDAN CBABCAC
             SprintLeft = 0f;
+        }
+        if (playerMove.speed >= 18.3f)
+        {
+            sprinting = true;
+            camScript.IncreaseFov();
+        }
+        else if (playerMove.speed <18.3f)
+        {
+            sprinting = false;
+            camScript.DecreaseFov();
         }
         /*
         //PJump Cooldown
@@ -196,7 +205,11 @@ public class AdvancedSliding : MonoBehaviour
         Vector2 inputDirection = Vector2.right * horizontal;
         rb.AddForce(inputDirection.normalized * slideForce, ForceMode2D.Force);
         //PJumpAvailable = true;
-        StartCoroutine(PJumpAvailablething());
+        if (canPP)
+        {
+            canPP = false;
+            StartCoroutine(PJumpAvailablething());
+        }
         slideTimer -= Time.deltaTime;
         if (slideTimer <= 0f)
         {
@@ -242,14 +255,15 @@ public class AdvancedSliding : MonoBehaviour
         slideTimer = 0f;
         //enter sprint
         IncreaseSpeed();
-        if ((playerMove.speed + speedBuff) < 25f) //Buff Speed
-        {
-            playerMove.speed += speedBuff;
-        }
-        else if (playerMove.speed >25f) // if speed too high nah
-        {
-            playerMove.speed = 25f;
-        }
+        //if ((playerMove.speed + speedBuff) < 25f) //Buff Speed
+        //{
+        playerMove.speed += speedBuff; //REMOVED SPEED LIMIT
+        playerMove.desiredSpeed += speedBuff; //REMOVED SPEED LIMIT
+        // }
+        //else if (playerMove.speed >25f) // if speed too high nah
+        //{
+            //playerMove.speed = 25f;
+        //}
         Debug.Log("SpeedIncreased");
         canSlide = true;
         PJumpActivated = false;
@@ -259,9 +273,11 @@ public class AdvancedSliding : MonoBehaviour
 
     public IEnumerator PJumpAvailablething() //PJump available coroutine uk?
     {
+        yield return new WaitForSeconds(.6f);
         PJumpAvailable = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.2f);
         PJumpAvailable = false;
+        canPP = true;
     }
     //PJUMP SPEED BOOST 
     public void IncreaseSpeed()

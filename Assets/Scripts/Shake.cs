@@ -8,30 +8,36 @@ public class Shake : MonoBehaviour
 {
     public GameObject Text;
 
-    public float duration = 1f;
-    public float strength = 4f;
+    public float CD;
+    public float strength;
 
+    void Start()
+    {
+        StartCoroutine(Shaking());        
+    }
     // Update is called once per frame
     void Update()
     {
         if (Text.activeSelf)
         {
-            StartCoroutine(Shaking());
+            StartCoroutine(Shaking());        
         }
     }
 
     IEnumerator Shaking()
-    {
-        Vector3 startPosition = transform.position;
-        float elapsedTime = 0f;
+    {       
+            Vector3 startPosition = transform.position;
+            float elapsedTime = 0f;
 
-        while (elapsedTime < duration)
-        {
-            elapsedTime += Time.deltaTime;
-            transform.position = startPosition + Random.insideUnitSphere * strength;
-            yield return null;
-        }
+            while (elapsedTime < 1f)
+            {
+                elapsedTime += Time.deltaTime;
+                transform.position = startPosition + Random.insideUnitSphere * strength;
+                yield return null;
+            }
 
-        transform.position = startPosition;
+            transform.position = startPosition;
+            yield return new WaitForSeconds(CD);
+        
     }
 }

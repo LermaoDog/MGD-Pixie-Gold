@@ -10,6 +10,9 @@ public class LevelTimer : MonoBehaviour
     public TMP_Text levelTimeShown;
 
     public float levelTime;
+    public int publicMinutes;
+    public int publicSeconds;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,5 +28,8 @@ public class LevelTimer : MonoBehaviour
         //levelTimeRounded = Mathf.Round(levelTime * 1f) * 1f;
         //levelTimeShown.text = levelTimeRounded.ToString();
         levelTimeShown.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        publicMinutes = minutes;
+        publicSeconds = seconds;
     }
 }

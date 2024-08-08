@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] AudioSource SFXSource;
     [SerializeField] AudioSource DeathSource;
     [SerializeField] AudioSource PJumpSource;
+    [SerializeField] AudioSource BluntPJumpSource;
 
     [Header("----------Audio Clips---------")]
     public AudioClip bgm;
@@ -19,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip slide;
     public AudioClip land;
     public AudioClip PJump;
+    public AudioClip BluntPJump;
 
     [Header("----------Death Sound---------")]
     public AudioClip death;
@@ -42,6 +44,11 @@ public class AudioManager : MonoBehaviour
     public void PlayPJumpSfx()
     {
         PJumpSource.PlayOneShot(PJump);
+    }
+    
+    public void PlayBluntPJumpSfx()
+    {
+        BluntPJumpSource.PlayOneShot(BluntPJump);
     }
 
     /*public void PlayLandSfx()

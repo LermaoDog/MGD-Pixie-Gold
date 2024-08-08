@@ -30,22 +30,18 @@ public class ScoreShown : MonoBehaviour
         if (currentScore > 0 && currentScore <=50) //C
         {
             shakeScript.strength = 1f;
-            shakeScript.duration = .2f;
         }
         if (currentScore > 50 && currentScore <=100) //B
         {
             shakeScript.strength = 2f;
-            shakeScript.duration = .5f;
         }
         if (currentScore > 100 && currentScore <=150) //A
         {
             shakeScript.strength = 3f;
-            shakeScript.duration = 1f;
         }
-        if (currentScore > 150) //S
+        if (currentScore > 150) //S+
         {
             shakeScript.strength = 4f;
-            shakeScript.duration = 2f;
         }
     }
 }

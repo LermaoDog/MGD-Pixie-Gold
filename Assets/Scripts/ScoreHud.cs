@@ -17,6 +17,8 @@ public class ScoreHud : MonoBehaviour
     public GameObject B;
     public GameObject A;
     public GameObject S;
+    public GameObject SS;
+    public GameObject SSS;
     public Image scoreBar;
 
     [Header("ScoreSettings")]
@@ -40,7 +42,10 @@ public class ScoreHud : MonoBehaviour
         if (graceTime > 0) //Start countdown before decreasing score
         {
             graceTime -= Time.deltaTime;
-            scoreBar.color = new Color(236/255f, 227/255f, 99/255f, 1);
+            if (actualScore <= 300f)
+            {
+                scoreBar.color = new Color(236 / 255f, 227 / 255f, 99 / 255f, 1);
+            }
         }
 
         if (actualScore > 0)
@@ -56,7 +61,7 @@ public class ScoreHud : MonoBehaviour
             //IF SCORE GOES OVER RANGE CHANGE TEXT TO NEXT GRADE
             if (actualScore > 0 && actualScore <=50) //C
             {
-                scoreBar.fillAmount = actualScore / (maxScore-250);
+                scoreBar.fillAmount = actualScore / 50f;
                 decreaseX = 4f;
                 S.SetActive(false);
                 A.SetActive(false);
@@ -65,8 +70,10 @@ public class ScoreHud : MonoBehaviour
             }
             if (actualScore > 50 && actualScore <=100)//B
             {
-                scoreBar.fillAmount = (actualScore-50) / (maxScore-250);
+                scoreBar.fillAmount = (actualScore-50) / 50f;
                 decreaseX = 6f;
+                SSS.SetActive(false);
+                SS.SetActive(false);
                 S.SetActive(false);
                 A.SetActive(false);
                 B.SetActive(true);
@@ -74,18 +81,46 @@ public class ScoreHud : MonoBehaviour
             } 
             if (actualScore > 100 && actualScore <=150)//A
             {
-                scoreBar.fillAmount = (actualScore-100) /(maxScore-250);
+                scoreBar.fillAmount = (actualScore-100) / 50f;
                 decreaseX = 8f;
+                SSS.SetActive(false);
+                SS.SetActive(false);
                 S.SetActive(false);
                 A.SetActive(true);
                 B.SetActive(false);
                 C.SetActive(false);
             } 
-            if (actualScore > 150)//S
+            if (actualScore > 150 && actualScore <= 200)//S
             {
-                scoreBar.fillAmount = (actualScore-150) / (maxScore-150);
+                scoreBar.fillAmount = (actualScore-150) / 50f;
                 decreaseX = 12f;
+                SSS.SetActive(false);
+                SS.SetActive(false);
                 S.SetActive(true);
+                A.SetActive(false);
+                B.SetActive(false);
+                C.SetActive(false);
+            }
+            if (actualScore > 200 && actualScore <= 300)//SS
+            {
+                scoreBar.color = Color.red;
+                scoreBar.fillAmount = (actualScore - 200) / 100f;
+                decreaseX = 14f;
+                SSS.SetActive(false);
+                SS.SetActive(true);
+                S.SetActive(false);
+                A.SetActive(false);
+                B.SetActive(false);
+                C.SetActive(false);
+            }
+            if (actualScore > 300)//SSS
+            {
+                scoreBar.color = Color.red;
+                scoreBar.fillAmount = (actualScore - 300) / 150f;
+                decreaseX = 15f;
+                SSS.SetActive(true);
+                SS.SetActive(false);
+                S.SetActive(false);
                 A.SetActive(false);
                 B.SetActive(false);
                 C.SetActive(false);
@@ -119,14 +154,14 @@ public class ScoreHud : MonoBehaviour
     {
         actualScore += 30;
         graceTime = 5f;
-        AddAction("+Perfect Jump +30");
+        AddAction("+Perfect Jump   +30");
         StartCoroutine(ActionCD());
     }
 
     //WAIT FOR 1S BEFORE DISAPPEARING
     public IEnumerator ActionCD()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         RunNextAction();
     }
 
@@ -134,7 +169,14 @@ public class ScoreHud : MonoBehaviour
     public void AddAction(string action)
     {
         actions.Enqueue(action);
-        UpdateQueuedActionText();
+        if (actions.Count > 5) //if more than 5 actions, remove top action
+        {
+            RunNextAction();
+        }
+        else
+        {
+            UpdateQueuedActionText();   
+        }
     }
     //GO NEXT ACTION
     public void RunNextAction()

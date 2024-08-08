@@ -20,6 +20,7 @@ public class ParticleController : MonoBehaviour
 
     public Collision colScript;
     public AdvancedSliding slideScript;
+    public ZyPlayerMove moveScript;
     float counter;
     public LayerMask layer;
     int Ground;
@@ -65,6 +66,11 @@ public class ParticleController : MonoBehaviour
         }
         
       
+    }
+
+    public void PJumpIndicator()
+    {
+        PJumpReady.Play();
     }
 
 
